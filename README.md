@@ -45,8 +45,7 @@ You should display the grid, the cell capacities, a count of the unused/unplaced
 reasonable flow value from the source to the sink. If the source is not yet connected to the sink, this flow is 0.
 We should be able to tell what a cell's capacity is. You may want gaps (gutters) between the rows and columns
 of a grid to nicely show some of these values. You can show cell values and edge values “near” them.
-C. Siska April 9, 2019 Page 1 of 2
-335 — Algorithm Engineering — Project #3 Knights Max Flow
+
 ## Algorithm
 You should prepare a 1-page (preferably, at most) paper describing your whatever algorithm(s) you use. You
 don't have to discuss the display; just how you choose edge placement, graph flow capacities, and how you
@@ -62,4 +61,4 @@ wish.
 Correctly and properly attribute all third party material and references, if any, lest points be taken off.
 ## Project Reports, Readme File, Submission, and Grading
 As before.
-C. Siska April 9, 2019 Page 2 of 2
+
