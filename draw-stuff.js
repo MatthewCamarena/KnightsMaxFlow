@@ -1,19 +1,29 @@
 // Draw stuff
 // Time-stamp: <2019-01-21 20:08:33 Chuck Siska>
 // ------------------------------------------------------------
-var randomNumberBetween0and30 = Math.floor(Math.random() * 20);
 
 function randomWholeNum() {
+	var rcellFlow = [0]; // 100 Random Whole Even Numbers Between 1 & 30 
+	var tempNum;
 
-  // Only change code below this line.
+	for(var i = 0; i < 100; i++){
+		tempNum = 1;
 
-  //console.log(Math.floor(Math.random() % 30));
+		while(tempNum % 2 != 0){	//if Even assign tempNum to rcellFlow if odd keep trying
+		tempNum =  Math.floor((Math.random() * 31));
+		}
+		rcellFlow[i] = tempNum;
+
+		console.log(i + " " + rcellFlow[i]);
+	}
+
+	return rcellFlow;
 }
-do{
-var x = Math.floor((Math.random() * 30) + 1);
-if (x%2==0)
-  console.log(x);
-} while (x%2==0);
+
+function labelCells(rctx){
+	var cellsFlow = randomWholeNum();
+	
+}
 
 // FUN. Draw filled rect.
 function draw_rect( ctx, stroke, fill ) 
