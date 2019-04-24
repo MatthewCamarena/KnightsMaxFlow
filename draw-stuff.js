@@ -1,6 +1,19 @@
 // Draw stuff
 // Time-stamp: <2019-01-21 20:08:33 Chuck Siska>
 // ------------------------------------------------------------
+var randomNumberBetween0and30 = Math.floor(Math.random() * 20);
+
+function randomWholeNum() {
+
+  // Only change code below this line.
+
+  //console.log(Math.floor(Math.random() % 30));
+}
+do{
+var x = Math.floor((Math.random() * 30) + 1);
+if (x%2==0)
+  console.log(x);
+} while (x%2==0);
 
 // FUN. Draw filled rect.
 function draw_rect( ctx, stroke, fill ) 
