@@ -1,5 +1,6 @@
 # CONTRIBUTORS:
 Camarena Matthew email: camarena.matthew@csu.fullerton.edu<br>
+Traboulsi Nicole email: nmtraboulsi@csu.fullerton.edu<br>
 
 # 335 — Algorithm Engineering — Project #3 Knights Max Flow
 Project #3 – Knights Max Flow
