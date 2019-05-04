@@ -2,6 +2,14 @@
 // Time-stamp: <2019-01-21 20:08:33 Chuck Siska>
 // ------------------------------------------------------------
 
+function KnightsMaxFlow( )
+{
+
+	
+
+}
+
+
 function randomWholeNum() {
 	var rcellFlow = [0]; // 100 Random Whole Even Numbers Between 1 & 30 
 	var tempNum;
@@ -14,31 +22,12 @@ function randomWholeNum() {
 		}
 		rcellFlow[i] = tempNum;
 
-		console.log(i + " " + rcellFlow[i]);
 	}
 
 	return rcellFlow;
 }
 
-function labelCells(rctx){
-	var cellsFlow = randomWholeNum();
-	
-}
 
-// FUN. Draw filled rect.
-function draw_rect( ctx, stroke, fill ) 
-{
-    stroke = stroke || 'grey';
-    fill = fill || 'dimgrey';
-    ctx.save( );
-    ctx.strokeStyle = stroke;
-    ctx.fillStyle = fill;
-    ctx.lineWidth = 50;
-    ctx.rect(150, 100, canvas.width - 300, canvas.height - 200);
-    ctx.stroke();
-    ctx.fill();
-    ctx.restore( );
-}
 
 // =====================================================  draw_grid ====
 function draw_grid( rctx, rminor, rmajor, rstroke, rfill  ) 
@@ -53,7 +42,7 @@ function draw_grid( rctx, rminor, rmajor, rstroke, rfill  )
         rctx.beginPath( );
         rctx.moveTo( ix, 0 );
         rctx.lineTo( ix, height );
-        rctx.lineWidth = ( ix % rmajor == 0 ) ? 0.5 : 0.25;
+        rctx.lineWidth = ( ix % rmajor == 0 ) ? 1.0 : 1.0;
         rctx.stroke( );
         if ( ix % rmajor == 0 ) { rctx.fillText( ix, ix, 10 ); }
     }
@@ -62,191 +51,83 @@ function draw_grid( rctx, rminor, rmajor, rstroke, rfill  )
         rctx.beginPath( );
         rctx.moveTo( 0, iy );
         rctx.lineTo( width, iy );
-        rctx.lineWidth = ( iy % rmajor == 0 ) ? 0.5 : 0.25;
+        rctx.lineWidth = ( iy % rmajor == 0 ) ? 1 : 1;
         rctx.stroke( );
         if ( iy % rmajor == 0 ) {rctx.fillText( iy, 0, iy + 10 );}
     }
-    rctx.restore( );
+
+    fillBoard();
+
+ //FILL (X,Y) coordinate values
+    for(var xTen = 0; xTen < 10; xTen++){
+    	for(var yTen = 0; yTen < 10; yTen++){
+    		rctx.fillText("O",(xTen*50+20),(yTen)*50 +30);
+
+    		rctx.fillText("(" + xTen + "," + yTen + ")",(xTen*50),(yTen)*50 +10);
+    		rctx.fillText( "x " +"/ " + boardValues[xTen][yTen], xTen*50+15, (yTen)*50 +48);
+    	}
+    }
+ //FILL (X,Y) coordinate values  
+
+ //CREATE START AND SINK BOX
+ 
+
+    rctx.restore();
 }
 
 
 
 
-function rule90(rctx, size)
-{	
-
+function start_( rctx, rminor, rmajor, rstroke, rfill )
+{
 	
-	//color to fill box with
-	rctx.fillStyle = "Purple";
+ 	rctx.save();
+    rctx.beginPath();
+ 	rctx.rect(50,100,50,50);
+ 	rctx.lineWidth = 5;
+    rctx.fillStyle = 'blue';
+ 	rctx.fill();
 
-	//create a 2D array with respect to the grid filled with empty space
-	let array = Array(rctx.canvas.width/10).fill().map(() => Array(rctx.canvas.height/10).fill(0));
+ 	rctx.restore();
 
-	//assign this spot as 1 meaning it is filled with color
-	array[0][20] = 1;
-	rctx.fillRect(200,0,10,10);
+}
 
-	//array[0][0] = 1;
-	//rctx.fillRect(0,0,10,10);
-
-	//rctx.fillRect(190,10,10,10);
-
-	// i and j will handle position starting at [0,0]
-	var i = 0;
-	var cSTATE = 0; // initial state will be 0 
-	rctx.fillStyle = "Red";
-
-	for(i;  i < size; i++)
-	{ //for loop on rows
-
-	var j = 0;
-
-	//set initial state
-	if(array[i][j]) 			// if 1
-	{
-		if(array[i][j+1])	    // if 11
-		{	
-			//edge case assuming edge is 0 thus 011
-			array[i+1][j] = 1;
-			rctx.fillRect((j)*10,(1+i)*10,10,10);
-
-			if(array[i][j+2]) 	// if 111	#7 NO PAINT
-			{
-				cSTATE = 4;
-			}
-			else 				// else 110	#6
-			{
-				cSTATE = 3;
-				array[i+1][j+1] = 1;
-				rctx.fillRect((j+1)*10,(1+i)*10,10,10);
-			} 
-		}
-		else 				    // else 10
-		{
-			if(array[i][j+2])   // if 101	#5 NO PAINT
-			{
-				cSTATE = 2;
-			}
-			else 				// else 100	#4
-			{
-				cSTATE = 1;
-				array[i+1][j+1] = 1;
-				rctx.fillRect((j+1)*10,(1+i)*10,10,10);
-			} 			
-		}
-
-	}
-	else					    // if 0
-	{
-		if(array[i][j+1]) 		// if 01
-		{
-			//edge case assuming edge is 0 ... 001
-			array[i+1][j] = 1;
-			rctx.fillRect((j)*10,(1+i)*10,10,10);
-
-
-			if(array[i][j+2])   // if 011	#3
-			{
-				array[i+1][j+1] = 1;
-				rctx.fillRect((j+1)*10,(1+i)*10,10,10);
-				cSTATE = 4;
-			}
-			else 				// else 010	#2 NO PAINT
-			{
-				cSTATE = 3;
-			} 
-		}
-		else  					// else its 00
-		{
-			if(array[i][j+2])   // if 001	#1				middle will be filled
-			{
-				array[i+1][j+1] = 1;
-				rctx.fillRect((j+1)*10,(1+i)*10,10,10);
-				cSTATE = 2;
-			}
-			else 				// else 000	#0 NO PAINT
-			{
-				cSTATE = 1;
-			} 
-		}
-	}
-
-	// more efficient with states
-
-	for( j = 1; j < 39; j++)
-	{
-		switch (cSTATE) { 
-		  case 1:              // 00 
-		    if(array[i][j+2])  //001
-		    {
-		    	rctx.fillStyle = "Red";
-		    	array[i+1][j+1] = 1;
-		    	rctx.fillRect((j+1)*10,(1+i)*10,10,10);
-		    	cSTATE = 2;
-
-		    }
-		    else	          //000
-		    {
-		    	cSTATE = 1;
-		    }
-		    break;
-		  case 2: 			  //01
-		    if(array[i][j+2]) //011
-		    {
-		    	rctx.fillStyle = "Blue";
-		    	array[i+1][j+1] = 1;
-		    	rctx.fillRect((j+1)*10,(1+i)*10,10,10);
-		    	cSTATE = 4;
-		    }
-		    else			  //010
-		    {
-		    	cSTATE = 3;
-
-		    }
-
-		    break;
-		  case 3:             //10
-		    if(array[i][j+2]) //101
-		    {
-
-		    	cSTATE = 2;
-		    }
-		    else			  //100
-		    {
-		    	rctx.fillStyle = "Blue";
-		    	array[i+1][j+1] = 1;
-		    	rctx.fillRect((j+1)*10,(1+i)*10,10,10);
-		    	cSTATE = 1;
-
-		    }		   
-		    break;
-		  case 4:             //11
-		    if(array[i][j+2]) //111
-		    {
-		    	rctx.fillStyle = "Blue";
-		    	array[i+1][j+1] = 1;
-		    	rctx.fillRect((j+1)*10,(1+i)*10,10,10);
-		    	cSTATE = 4;
-		    }
-		    else			  //110
-		    {
-		    	rctx.fillStyle = "Blue";
-		    	array[i+1][j+1] = 1;
-		    	rctx.fillRect((j+1)*10,(1+i)*10,10,10);
-		    	cSTATE = 3;
-
-		    }	
-		    break;
-
-		}
-
-	}//forloopj
-
-
-
-
-	}//for loop i
+function drawPath( rctx, rminor, rmajor, rstroke, rfill )
+{
+	rctx.save();
+	rctx.beginPath();
+	rctx.lineWidth = 5;
+	rctx.strokeStyle = 'green';
+	rctx.moveTo(75,125);
+	rctx.lineTo(425, 375);
+	rctx.stroke();
+	rctx.restore();
 
 }
 
 
+function stop_( rctx, rminor, rmajor, rstroke, rfill )
+{
+
+
+ 	rctx.save();
+ 	rctx.beginPath();
+ 	rctx.rect(400,350,50,50);
+    rctx.fillStyle = 'red';
+    rctx.fill();
+ 	rctx.restore();
+
+}
+
+function fillBoard(){
+	var anArray = randomWholeNum();
+	var j = 0;
+ 	for(var xTen = 0; xTen < 10; xTen++){
+  	  for(var yTen = 0; yTen < 10; yTen++){
+  	  	boardValues[xTen][yTen] = anArray[j];
+    	//console.log(j+" "+ boardValues[xTen][yTen]);
+    	j++;	
+    	}
+    }
+}
+//1,2starting 8,7 sink
