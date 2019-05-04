@@ -1,12 +1,35 @@
 // Draw stuff
-// Time-stamp: <2019-01-21 20:08:33 Chuck Siska>
+// Time-stamp: <2019-05-04 11:56:13 Yash Bhambhani>
 // ------------------------------------------------------------
 
-function KnightsMaxFlow( )
+function KnightsMaxFlow()
 {
-
+	totalFlow = findFlow();
+	//window.alert("Max Flow: ", totalFlow);
 	
 
+}
+
+function findFlow()
+{
+	// 3,3 -> 4,5 -> 6,6 -> 5,8 -> 7, 9 -> 8,7
+	const MAX_SOURCE = boardValues[1][2];
+	const MAX_SINK = boardValues[8][7];
+	// var currentX = 1;
+	// var currentY = 2;
+	// var options = boardValues[currentX+1][currentY+2];
+	var MAX_PATH = Math.min(boardValues[3][3], 
+			  boardValues[4][5], 
+			  boardValues[6][6], 
+			  boardValues[5][8],
+			  boardValues[7][9],
+			  boardValues[8][7]);
+	if(MAX_PATH > MAX_SOURCE)
+		MAX_PATH = MAX_SOURCE;
+	if(MAX_PATH > MAX_SINK)
+		MAX_PATH = MAX_SINK;
+
+	return MAX_PATH;		
 }
 
 
@@ -94,11 +117,17 @@ function start_( rctx, rminor, rmajor, rstroke, rfill )
 
 function drawPath( rctx, rminor, rmajor, rstroke, rfill )
 {
+//  3,3 -> 4,5 -> 6,6 -> 5,8 -> 7, 9 -> 8,7
 	rctx.save();
 	rctx.beginPath();
 	rctx.lineWidth = 5;
 	rctx.strokeStyle = 'green';
 	rctx.moveTo(75,125);
+	rctx.lineTo((3*50+25), (3*50+25));
+	rctx.lineTo((4*50+25), (5*50+25));
+	rctx.lineTo((6*50+25), (6*50+25));
+	rctx.lineTo((5*50+25), (8*50+25));
+	rctx.lineTo((7*50+25), (9*50+25));
 	rctx.lineTo(425, 375);
 	rctx.stroke();
 	rctx.restore();
