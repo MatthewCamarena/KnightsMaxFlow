@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <title>Knights Max Flow</title>
-<link rel="stylesheet" href="../assets/styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body><h1>P3: Knights Max Flow</h1>
 <h4>
@@ -8,13 +8,11 @@ Yash Bhambhani, Matthew Camarena, Daniel Traboulsi, Nicole Traboulsi
 <br>
 TEAM: BCT
 </h4>
-
-
 <canvas id="grid" width="500" height="500"></canvas> <br>
 
 </body>
 
-<script src="../draw-stuff.js"></script>
+<script src="draw-stuff.js"></script>
 
 <script>
 // after "Introducing JavaScript Game Development" by Stuart.
@@ -28,18 +26,27 @@ function draw_title( context )
     context.font = "30px Arial";
     context.fillText( "Grid", 150, 140 );
     context.restore( );
+
 }
 // =====================================================  Main ====
   var canvas = document.getElementById( "grid" );
   var context = canvas.getContext( "2d" );
-  //draw_rect( context ); // i removed the gray grid
-  // Draw a grid
-  draw_grid( context, 50, 0, 'white', 'yellow' );
-  //rule90(context);
-  //draw_title( context );   // I deleted because i didn't want it to display the word grid
+  var context2 = canvas.getContext( "2d" );
 
+
+  // Initialize 10x10 2D array
+  var boardValues = new Array(10);
+
+  for (var i = 0; i < boardValues.length; i++) {
+    boardValues[i] = new Array(10);
+  }
+  start_(context, 0, 0,'white', 'red');
+  stop_(context2, 0, 0,'white', 'blue');
+  draw_grid( context, 50, 0, 'white', 'yellow' );
+  drawPath(context, 50, 0, 'white', 'yellow' );
 </script>
-<button type="button" onclick="rule90(context, 3)">3 Generations</button> 
+<button type="button" onclick="KnightsMaxFlow(context, 50, 0, 'white', 'yellow')"> Create and call 2D </button>
+<button type="button" onclick="randomWholeNum(context)"> Call </button>
 <button type="button" onclick="rule90(context, 39)">Fill</button>
 <br> To clear and try again refresh the page!
 </html>
