@@ -4,17 +4,51 @@
 
 function KnightsMaxFlow()
 {
+	var coordX = 1; //sourceX
+	var coordY = 2; //sourceY
 	totalFlow = findFlow();
 	//window.alert("Max Flow: ", totalFlow);
-	
+	var myOptions = findOptions(coordX, coordY);
+	coordX = myOptions[0];
+	coordY = myOptions[1];
+	totalFlow = Math.min(boardValues[coordX][coordY], MAX_SINK, MAX_SOURCE);
 
+}
+
+function findOptions(currX, currY)
+{
+	var option1 = boardValues[currX+1][currY+2];
+	if(!option1) option1 = -1;
+	var option2 = boardValues[currX+2][currY+1];
+	if(!option2) option2 = -1;
+	var option3 = boardValues[currX-1][currY+2];
+	if(!option3) option3 = -1;
+	var option4 = boardValues[currX-2][currY+1];
+	if(!option4) option4 = -1;
+	var option5 = boardValues[currX+1][currY-2];
+	if(!option5) option5 = -1;
+	var option6 = boardValues[currX+2][currY-1];
+	if(!option6) option6 = -1;
+	var option7 = boardValues[currX-2][currY-1];
+	if(!option7) option7 = -1;
+	var option8 = boardValues[currX-1][currY-2];
+	if(!option8) option8 = -1;
+
+	if (option1 > Math.max(option2, option3, option4, option5, option6, option7, option8)) return [currX+1, currY+2]; 
+	if (option2 > Math.max(option1, option3, option4, option5, option6, option7, option8)) return [currX+2, currY+1]; 
+	if (option3 > Math.max(option2, option1, option4, option5, option6, option7, option8)) return [currX-1, currY+2]; 
+	if (option4 > Math.max(option2, option3, option1, option5, option6, option7, option8)) return [currX-2, currY+1]; 
+	if (option5 > Math.max(option2, option3, option4, option1, option6, option7, option8)) return [currX+1, currY-2]; 
+	if (option6 > Math.max(option2, option3, option4, option5, option1, option7, option8)) return [currX+2, currY-1]; 
+	if (option7 > Math.max(option2, option3, option4, option5, option6, option1, option8)) return [currX-2, currY-1]; 
+	if (option8 > Math.max(option2, option3, option4, option5, option6, option7, option1)) return [currX-1, currY-2]; 
+
+	//if(MAX_SOURCE < option1 || MAX_SOURCE < option1)
 }
 
 function findFlow()
 {
 	// 3,3 -> 4,5 -> 6,6 -> 5,8 -> 7, 9 -> 8,7
-	const MAX_SOURCE = boardValues[1][2];
-	const MAX_SINK = boardValues[8][7];
 	// var currentX = 1;
 	// var currentY = 2;
 	// var options = boardValues[currentX+1][currentY+2];
@@ -31,7 +65,6 @@ function findFlow()
 
 	return MAX_PATH;		
 }
-
 
 function randomWholeNum() {
 	var rcellFlow = [0]; // 100 Random Whole Even Numbers Between 1 & 30 
@@ -120,7 +153,7 @@ function drawPath( rctx, rminor, rmajor, rstroke, rfill )
 //  3,3 -> 4,5 -> 6,6 -> 5,8 -> 7, 9 -> 8,7
 	rctx.save();
 	rctx.beginPath();
-	rctx.lineWidth = 5;
+	rctx.lineWidth = 3;
 	rctx.strokeStyle = 'green';
 	rctx.moveTo(75,125);
 	rctx.lineTo((3*50+25), (3*50+25));

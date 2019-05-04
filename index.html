@@ -15,32 +15,21 @@ TEAM: BCT
 <script src="draw-stuff.js"></script>
 
 <script>
-// after "Introducing JavaScript Game Development" by Stuart.
-
-// =====================================================  draw_title ====
-// Draw filled rect.
-function draw_title( context ) 
-{
-    context.save( );
-    context.fillStyle = 'lightgrey';
-    context.font = "30px Arial";
-    context.fillText( "Grid", 150, 140 );
-    context.restore( );
-
-}
 // =====================================================  Main ====
   var canvas = document.getElementById( "grid" );
   var context = canvas.getContext( "2d" );
   var context2 = canvas.getContext( "2d" );
 
-
   // Initialize 10x10 2D array
   var boardValues = new Array(10);
   var totalFlow = 0; 
+  const MAX_SOURCE = boardValues[1][2];
+	const MAX_SINK = boardValues[8][7];
 
   for (var i = 0; i < boardValues.length; i++) {
     boardValues[i] = new Array(10);
   }
+
   start_(context, 0, 0,'white', 'red');
   stop_(context2, 0, 0,'white', 'blue');
   draw_grid( context, 50, 0, 'white', 'yellow' );
