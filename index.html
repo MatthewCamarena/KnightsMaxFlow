@@ -18,20 +18,18 @@ TEAM: BCT
 // =====================================================  Main ====
   var canvas = document.getElementById( "grid" );
   var context = canvas.getContext( "2d" );
-  var context2 = canvas.getContext( "2d" );
+  //var context2 = canvas.getContext( "2d" );
 
   // Initialize 10x10 2D array
   var boardValues = new Array(10);
   var totalFlow = 0; 
-  const MAX_SOURCE = boardValues[1][2];
-	const MAX_SINK = boardValues[8][7];
-
+ 
   for (var i = 0; i < boardValues.length; i++) {
     boardValues[i] = new Array(10);
   }
-
+  
   start_(context, 0, 0,'white', 'red');
-  stop_(context2, 0, 0,'white', 'blue');
+  stop_(context, 0, 0,'white', 'blue');
   draw_grid( context, 50, 0, 'white', 'yellow' );
   drawPath(context, 50, 0, 'white', 'yellow' );
   KnightsMaxFlow();
