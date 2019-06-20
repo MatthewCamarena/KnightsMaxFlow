@@ -4,54 +4,81 @@
 
 function KnightsMaxFlow()
 {
+	var coordX = 1; //sourceX
+	var coordY = 2; //sourceY
 	totalFlow = findFlow();
 	//window.alert("Max Flow: ", totalFlow);
-	
+	var myOptions = findOptions(coordX, coordY);
+	coordX = myOptions[0];
+	coordY = myOptions[1];
+	totalFlow = Math.min(boardValues[coordX][coordY], MAX_SINK, MAX_SOURCE);
+	//To-Do: Apply algorithm that incorporates Ford-Fulkerson to find next possible cell 
+}
 
+function findOptions(currX, currY)
+{
+	//WiP to find next possible cell to hop to, usking only Knight moves.
+	var option1 = boardValues[currX+1][currY+2];
+	if(!option1) option1 = -1;
+	var option2 = boardValues[currX+2][currY+1];
+	if(!option2) option2 = -1;
+	var option3 = boardValues[currX-1][currY+2];
+	if(!option3) option3 = -1;
+	var option4 = boardValues[currX-2][currY+1];
+	if(!option4) option4 = -1;
+	var option5 = boardValues[currX+1][currY-2];
+	if(!option5) option5 = -1;
+	var option6 = boardValues[currX+2][currY-1];
+	if(!option6) option6 = -1;
+	var option7 = boardValues[currX-2][currY-1];
+	if(!option7) option7 = -1;
+	var option8 = boardValues[currX-1][currY-2];
+	if(!option8) option8 = -1;
+
+	if (option1 > Math.max(option2, option3, option4, option5, option6, option7, option8)) return [currX+1, currY+2]; 
+	if (option2 > Math.max(option1, option3, option4, option5, option6, option7, option8)) return [currX+2, currY+1]; 
+	if (option3 > Math.max(option2, option1, option4, option5, option6, option7, option8)) return [currX-1, currY+2]; 
+	if (option4 > Math.max(option2, option3, option1, option5, option6, option7, option8)) return [currX-2, currY+1]; 
+	if (option5 > Math.max(option2, option3, option4, option1, option6, option7, option8)) return [currX+1, currY-2]; 
+	if (option6 > Math.max(option2, option3, option4, option5, option1, option7, option8)) return [currX+2, currY-1]; 
+	if (option7 > Math.max(option2, option3, option4, option5, option6, option1, option8)) return [currX-2, currY-1]; 
+	if (option8 > Math.max(option2, option3, option4, option5, option6, option7, option1)) return [currX-1, currY-2]; 
+
+	//if(MAX_SOURCE < option1 || MAX_SOURCE < option1)
 }
 
 function findFlow()
 {
-	// 3,3 -> 4,5 -> 6,6 -> 5,8 -> 7, 9 -> 8,7
 	const MAX_SOURCE = boardValues[1][2];
 	const MAX_SINK = boardValues[8][7];
+
+	// 3,3 -> 4,5 -> 6,6 -> 5,8 -> 7,9 -> 8,7
 	// var currentX = 1;
 	// var currentY = 2;
 	// var options = boardValues[currentX+1][currentY+2];
-	var MAX_PATH = Math.min(boardValues[3][3], 
+	var MAX_PATH = Math.min(boardValues[1][2],
+			  boardValues[3][3], 
 			  boardValues[4][5], 
 			  boardValues[6][6], 
 			  boardValues[5][8],
 			  boardValues[7][9],
 			  boardValues[8][7]);
-	if(MAX_PATH > MAX_SOURCE)
-		MAX_PATH = MAX_SOURCE;
-	if(MAX_PATH > MAX_SINK)
-		MAX_PATH = MAX_SINK;
-
 	return MAX_PATH;		
 }
 
-
 function randomWholeNum() {
-	var rcellFlow = [0]; // 100 Random Whole Even Numbers Between 1 & 30 
+	var rcellFlow = [0]; // 100 Random Whole Even Numbers Between 0 & 30 
 	var tempNum;
-
 	for(var i = 0; i < 100; i++){
 		tempNum = 1;
-
 		while(tempNum % 2 != 0){	//if Even assign tempNum to rcellFlow if odd keep trying
 		tempNum =  Math.floor((Math.random() * 31));
 		}
 		rcellFlow[i] = tempNum;
 
 	}
-
 	return rcellFlow;
 }
-
-
-
 // =====================================================  draw_grid ====
 function draw_grid( rctx, rminor, rmajor, rstroke, rfill  ) 
 {
@@ -78,14 +105,11 @@ function draw_grid( rctx, rminor, rmajor, rstroke, rfill  )
         rctx.stroke( );
         if ( iy % rmajor == 0 ) {rctx.fillText( iy, 0, iy + 10 );}
     }
-
     fillBoard();
-
  //FILL (X,Y) coordinate values
     for(var xTen = 0; xTen < 10; xTen++){
     	for(var yTen = 0; yTen < 10; yTen++){
     		rctx.fillText("O",(xTen*50+20),(yTen)*50 +30);
-
     		rctx.fillText("(" + xTen + "," + yTen + ")",(xTen*50),(yTen)*50 +10);
     		rctx.fillText( "x " +"/ " + boardValues[xTen][yTen], xTen*50+15, (yTen)*50 +48);
     	}
@@ -93,34 +117,27 @@ function draw_grid( rctx, rminor, rmajor, rstroke, rfill  )
  //FILL (X,Y) coordinate values  
 
  //CREATE START AND SINK BOX
- 
-
     rctx.restore();
 }
 
-
-
-
 function start_( rctx, rminor, rmajor, rstroke, rfill )
 {
-	
  	rctx.save();
     rctx.beginPath();
  	rctx.rect(50,100,50,50);
  	rctx.lineWidth = 5;
     rctx.fillStyle = 'blue';
  	rctx.fill();
-
  	rctx.restore();
 
 }
 
-function drawPath( rctx, rminor, rmajor, rstroke, rfill )
+function drawPath(rctx, rminor, rmajor, rstroke, rfill)
 {
 //  3,3 -> 4,5 -> 6,6 -> 5,8 -> 7, 9 -> 8,7
 	rctx.save();
 	rctx.beginPath();
-	rctx.lineWidth = 5;
+	rctx.lineWidth = 3;
 	rctx.strokeStyle = 'green';
 	rctx.moveTo(75,125);
 	rctx.lineTo((3*50+25), (3*50+25));
@@ -131,24 +148,21 @@ function drawPath( rctx, rminor, rmajor, rstroke, rfill )
 	rctx.lineTo(425, 375);
 	rctx.stroke();
 	rctx.restore();
-
 }
 
 
-function stop_( rctx, rminor, rmajor, rstroke, rfill )
+function stop_(rctx, rminor, rmajor, rstroke, rfill)
 {
-
-
  	rctx.save();
  	rctx.beginPath();
  	rctx.rect(400,350,50,50);
     rctx.fillStyle = 'red';
     rctx.fill();
  	rctx.restore();
-
 }
 
-function fillBoard(){
+function fillBoard()
+{
 	var anArray = randomWholeNum();
 	var j = 0;
  	for(var xTen = 0; xTen < 10; xTen++){
@@ -159,4 +173,3 @@ function fillBoard(){
     	}
     }
 }
-//1,2starting 8,7 sink
